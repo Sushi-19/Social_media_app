@@ -36,7 +36,7 @@ A REST API for a social media application built with FastAPI. The API supports u
 1. Clone the repository and open the project directory:
 
    ```bash
-   git clone <repository-url>
+   git clone "https://github.com/Sushi-19/Social_media_app"
    cd FastAPI
    ```
 
