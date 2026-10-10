@@ -1,0 +1,33 @@
+name: fastapi
+
+services:
+  api:
+    build: .
+    image: fastapi
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/usr/src/app
+    env_file: .env
+    environment:
+      DATABASE_HOSTNAME: postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: ${database_username}
+      POSTGRES_PASSWORD: ${database_password}
+      POSTGRES_DB: ${database_name}
+    volumes:
+      - postgres-db:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${database_username} -d ${database_name}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres-db:
